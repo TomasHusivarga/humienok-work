@@ -1,31 +1,36 @@
 <!doctype html>
 <html lang="sk">
 <head>
-	<meta charset="utf-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<title>Copy Humienok newsletter</title>
-	<style>
-		body{font-family:Arial,Helvetica,sans-serif;background:#f6f8f3;color:#26311f;margin:0;padding:30px;line-height:1.55}
-		.wrap{max-width:820px;margin:0 auto;background:#fff;border:1px solid #e1ead8;border-radius:18px;padding:26px;box-shadow:0 12px 30px rgba(0,0,0,.06)}
-		a.button{display:inline-block;background:#7ab51d;color:#fff;text-decoration:none;font-weight:700;border-radius:999px;padding:14px 22px;margin:8px 0 18px}
-		code{background:#f0f4ec;padding:2px 5px;border-radius:5px}
-	</style>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Copy Humienok newsletter</title>
+<style>
+*{box-sizing:border-box}body{margin:0;padding:28px 16px;background:#f7fbf2;color:#26311f;font-family:Arial,Helvetica,sans-serif;line-height:1.55}.wrap{max-width:980px;margin:0 auto}.panel{background:#fff;border:1px solid #dfead3;border-radius:18px;box-shadow:0 14px 34px rgba(51,75,31,.08);padding:26px}h1{font-size:28px;line-height:1.2;margin:0 0 10px}p{color:#5f6b55;font-size:16px;margin:0 0 14px}.actions{display:flex;flex-wrap:wrap;gap:10px;margin:20px 0 12px}button,.button{display:inline-flex;align-items:center;justify-content:center;min-height:46px;padding:13px 22px;border:0;border-radius:999px;background:#73ad18;color:#fff;font-size:16px;font-weight:700;text-decoration:none;cursor:pointer}button:hover,.button:hover{background:#5f9710}.button.secondary{background:#eef6e7;color:#26311f}.status{display:none;margin:14px 0 0;padding:12px 14px;border:1px solid #dfead3;border-radius:12px;background:#f2f8ed;color:#26311f}.status.is-visible{display:block}.preview-title{margin:28px 0 10px;color:#26311f;font-size:18px;font-weight:700}iframe{display:block;width:100%;height:820px;border:1px solid #dfead3;border-radius:16px;background:#fff}details{margin-top:18px}summary{color:#5f9710;font-weight:700;cursor:pointer}textarea{display:block;width:100%;height:220px;margin-top:12px;padding:12px;border:1px solid #dfead3;border-radius:12px;font:13px Consolas,Monaco,monospace}@media(max-width:640px){body{padding:16px 10px}.panel{padding:20px}h1{font-size:24px}button,.button{width:100%}}
+</style>
 </head>
 <body>
-	<div class="wrap">
-		<h1>Humienok newsletter - rendered copy</h1>
-		<p>GitHub file view shows HTML code, so <code>Ctrl+A</code> and <code>Ctrl+C</code> there will not copy the rendered newsletter.</p>
-		<p>Use this rendered link instead:</p>
-		<p><a class="button" href="https://raw.githack.com/TomasHusivarga/humienok-work/main/newsletters/humienok-pre-firmy-newsletter.html">Open rendered newsletter</a></p>
-		<ol>
-			<li>Open the rendered newsletter link above.</li>
-			<li>Click inside the newsletter page.</li>
-			<li>Press <code>Ctrl+A</code>.</li>
-			<li>Press <code>Ctrl+C</code>.</li>
-			<li>Paste with <code>Ctrl+V</code> into your email/newsletter editor.</li>
-		</ol>
-		<p>Direct rendered URL:</p>
-		<p><a href="https://raw.githack.com/TomasHusivarga/humienok-work/main/newsletters/humienok-pre-firmy-newsletter.html">https://raw.githack.com/TomasHusivarga/humienok-work/main/newsletters/humienok-pre-firmy-newsletter.html</a></p>
-	</div>
+<main class="wrap"><section class="panel">
+<h1>Humienok newsletter copy tool</h1>
+<p>Use this page instead of forwarding or copying from Gmail. The button copies only the newsletter body as rich HTML, including images and the CTA button.</p>
+<p>After copying, paste it into the email editor with Ctrl+V.</p>
+<div class="actions"><button type="button" id="copy-button">Copy newsletter</button><a class="button secondary" href="newsletters/humienok-pre-firmy-newsletter.html" target="_blank" rel="noopener">Open preview only</a></div>
+<div class="status" id="status" role="status" aria-live="polite"></div>
+<div class="preview-title">Preview</div>
+<iframe src="newsletters/humienok-pre-firmy-newsletter.html" title="Humienok newsletter preview"></iframe>
+<details><summary>Fallback: HTML source</summary><p>If the copy button is blocked by the browser, copy this HTML source and paste it into an editor that supports HTML email source.</p><textarea id="source" readonly></textarea></details>
+</section></main>
+<script>
+const templatePath='newsletters/humienok-pre-firmy-newsletter.html';
+const copyButton=document.getElementById('copy-button');
+const statusBox=document.getElementById('status');
+const sourceField=document.getElementById('source');
+let newsletterHtml='';
+function setStatus(message,isError){statusBox.textContent=message;statusBox.classList.add('is-visible');statusBox.style.borderColor=isError?'#f0b4a8':'#dfead3';statusBox.style.background=isError?'#fff5f2':'#f2f8ed'}
+async function loadNewsletter(){if(newsletterHtml)return newsletterHtml;const response=await fetch(templatePath,{cache:'no-store'});if(!response.ok)throw new Error('Newsletter template could not be loaded.');newsletterHtml=await response.text();sourceField.value=newsletterHtml;return newsletterHtml}
+function getPlainTextFallback(){return ['Humienok s.r.o.','Ovocné benefity pre firmy v Bratislavskom kraji','Čerstvé slovenské ovocie doručené priamo do kancelárie pre váš tím.','https://www.humienok.sk/pre-firmy/'].join('\n\n')}
+async function copyNewsletter(){copyButton.disabled=true;copyButton.textContent='Copying...';try{const html=await loadNewsletter();if(navigator.clipboard&&window.ClipboardItem){await navigator.clipboard.write([new ClipboardItem({'text/html':new Blob([html],{type:'text/html'}),'text/plain':new Blob([getPlainTextFallback()],{type:'text/plain'})})]);setStatus('Newsletter copied. Paste it into the email editor with Ctrl+V.',false)}else if(navigator.clipboard){await navigator.clipboard.writeText(html);setStatus('Your browser copied the HTML source only. Use the fallback source if the pasted email is not rendered.',true)}else{sourceField.focus();sourceField.select();setStatus('Clipboard access is not available in this browser. Use the fallback HTML source below.',true)}}catch(error){setStatus(error.message||'Copy failed. Use the fallback HTML source below.',true)}finally{copyButton.disabled=false;copyButton.textContent='Copy newsletter'}}
+copyButton.addEventListener('click',copyNewsletter);
+loadNewsletter().catch(error=>setStatus(error.message||'Newsletter template could not be loaded.',true));
+</script>
 </body>
 </html>
