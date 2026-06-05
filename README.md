@@ -6,7 +6,7 @@ This repository stores shareable Humienok work files.
 
 Recommended copy tool:
 
-- https://raw.githack.com/TomasHusivarga/humienok-work/main/copy-newsletter.html
+- https://raw.githack.com/TomasHusivarga/humienok-work/main/copy-newsletter.html?v=3
 
 Use the copy tool when someone needs to paste the designed newsletter into an email editor. Do not forward the email and do not copy from Gmail, because that can include forwarded-message metadata or lose images/buttons.
 
