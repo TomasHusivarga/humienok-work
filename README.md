@@ -4,21 +4,22 @@ This repository stores shareable Humienok work files.
 
 ## Pre firmy newsletter
 
-Rendered copy link:
+Recommended copy tool:
 
-- https://raw.githack.com/TomasHusivarga/humienok-work/main/newsletters/humienok-pre-firmy-newsletter.html
+- https://raw.githack.com/TomasHusivarga/humienok-work/main/copy-newsletter.html
 
-Use this link when someone needs to copy the designed newsletter with `Ctrl+A`, `Ctrl+C`, and `Ctrl+V`.
+Use the copy tool when someone needs to paste the designed newsletter into an email editor. Do not forward the email and do not copy from Gmail, because that can include forwarded-message metadata or lose images/buttons.
 
 Steps:
 
-1. Open the rendered copy link above.
-2. Click inside the newsletter page.
-3. Press `Ctrl+A`.
-4. Press `Ctrl+C`.
-5. Paste with `Ctrl+V` into the email/newsletter editor.
+1. Open the copy tool link above.
+2. Click `Copy newsletter`.
+3. Allow clipboard permission if the browser asks.
+4. Paste with `Ctrl+V` into the email/newsletter editor.
 
-Do not copy from GitHub's normal file view if you want the rendered design. GitHub's file view copies the HTML code, not the email layout.
+Preview-only link:
+
+- https://raw.githack.com/TomasHusivarga/humienok-work/main/newsletters/humienok-pre-firmy-newsletter.html
 
 Source file:
 
